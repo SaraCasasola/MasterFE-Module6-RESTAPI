@@ -4,15 +4,18 @@ import { getCharacterCollection, CharacterCollectionApi } from './api';
 import { mapFromApiToVm } from './character-collection.mapper';
 import { mapToCollection } from 'common/mappers';
 
+export let totalPagesNumber: number;
+
 export const useCharacterCollection = () => {
   const [characterCollection, setCharacterCollection] = React.useState<CharacterEntityVm[]>(
     []
-  );
+  );  
 
-  const loadCharacterCollection = () => {
-    getCharacterCollection().then((characters: CharacterCollectionApi) =>
-      setCharacterCollection(mapToCollection(characters.results, mapFromApiToVm))
-    );
+  const loadCharacterCollection = (pageNumber: number) => {
+    getCharacterCollection(pageNumber).then((characters: CharacterCollectionApi) => {
+      totalPagesNumber = characters.info.pages;
+      setCharacterCollection(mapToCollection(characters.results, mapFromApiToVm));
+    });
   };
 
   return { characterCollection, loadCharacterCollection };

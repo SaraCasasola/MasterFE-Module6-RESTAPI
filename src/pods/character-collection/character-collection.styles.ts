@@ -24,3 +24,11 @@ export const list = css`
     grid-template-columns: repeat(3, 1fr);
   }
 `;
+
+export const pagination = css`
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
