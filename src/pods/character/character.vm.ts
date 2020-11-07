@@ -9,3 +9,8 @@ export interface Character {
   location: string;
   picture: string;
 }
+
+export interface Comment {
+  id: number;
+  comment: string;
+}

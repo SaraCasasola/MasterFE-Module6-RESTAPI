@@ -1,0 +1,26 @@
+{
+  "comments": [
+    {
+      "characterId": 1,
+      "comments": [
+        {
+          "id": 1,
+          "comment": "Test"
+        },
+        {
+          "id": 2,
+          "comment": "Test comment"
+        }      
+      ]
+    },
+    {
+      "characterId": 2,
+      "comments": [
+        {
+          "id": 1,
+          "comment": "Test 2"
+        }   
+      ]
+    }
+  ]
+}
