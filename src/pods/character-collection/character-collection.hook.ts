@@ -11,10 +11,13 @@ export const useCharacterCollection = () => {
     []
   );  
 
-  const loadCharacterCollection = (pageNumber: number) => {
-    getCharacterCollection(pageNumber).then((characters: CharacterCollectionApi) => {
+  const loadCharacterCollection = (pageNumber: number, name?: string) => {
+    getCharacterCollection(pageNumber, name).then((characters: CharacterCollectionApi) => {
       totalPagesNumber = characters.info.pages;
       setCharacterCollection(mapToCollection(characters.results, mapFromApiToVm));
+    }).catch(() => {
+      totalPagesNumber = 0;
+      setCharacterCollection([]);
     });
   };
 
