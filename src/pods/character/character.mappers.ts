@@ -1,5 +1,5 @@
 import * as characterApiModel from './api/character.api-model';
-import * as commentsApiModel from './api/comments.api-model';
+import * as commentsApiModel from './api/comment.api-model';
 import * as viewModel from './character.vm';
 
 export const mapCharacterFromApiToVm = (
@@ -16,9 +16,17 @@ export const mapCharacterFromApiToVm = (
     picture: character.image
 });
 
-export const mapCommentsFromApiToVm = (
+export const mapCommentFromApiToVm = (
   comment: commentsApiModel.CommentApi
 ): viewModel.Comment => ({
+    id: comment?.id,
+    comment: comment?.comment
+});
+
+export const mapCommentFromVmToApi = (
+  comment: viewModel.Comment, characterId: number
+): commentsApiModel.CommentApi => ({
     id: comment.id,
+    characterId: characterId,
     comment: comment.comment
 });

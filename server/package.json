@@ -4,7 +4,7 @@
   "description": "Characters Comments API",
   "main": "index.js",
   "scripts": {
-    "mock-server": "json-server --routes ./config/routes.json --watch mock-data/characters-comments.json --middlewares ./config/character.middleware.js --no-delete-cascade --port 3080"
+    "mock-server": "json-server --routes ./config/routes.json --watch mock-data/characters-comments.json --middlewares ./config/character-comments.middleware.js --no-delete-cascade --port 3080"
   },
   "author": "Lemoncode",
   "license": "MIT",

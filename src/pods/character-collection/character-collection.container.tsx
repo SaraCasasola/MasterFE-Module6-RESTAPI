@@ -49,7 +49,7 @@ export const CharacterCollectionContainer = () => {
 
   return <>
         <div className={classes.search}> 
-          <TextField id="standard-basic" label="Search character" onChange={handleTextFieldChange} className={classes.searchInput}/>
+          <TextField label="Search character" onChange={handleTextFieldChange} className={classes.searchInput}/>
           <Button variant="contained" color="primary" onClick={handleSearch}>Search</Button>
         </div>
         {characterCollection.length > 0 ?

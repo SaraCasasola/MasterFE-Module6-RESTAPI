@@ -1,9 +1,9 @@
 import Axios from 'axios'
 import { CharacterApi } from './character.api-model';
 
-const getCharacterURLbase = 'https://rickandmortyapi.com/api/character/';
+const characterURLbase = 'https://rickandmortyapi.com/api/character/';
 
 export const getCharacter = async (id: string): Promise<CharacterApi> => {
-  const { data } = await Axios.get<CharacterApi>(`${getCharacterURLbase}${id}`);
+  const { data } = await Axios.get<CharacterApi>(`${characterURLbase}${id}`);
   return data;
 };

@@ -3,15 +3,15 @@ import { useParams, useHistory } from 'react-router-dom';
 import { linkRoutes } from 'core/router';
 import * as api from './api';
 import { Character, Comment } from './character.vm';
-import { mapCharacterFromApiToVm, mapCommentsFromApiToVm } from './character.mappers';
+import { mapCharacterFromApiToVm, mapCommentFromApiToVm, mapCommentFromVmToApi } from './character.mappers';
 import { CharacterComponent } from './character.component';
-import { LinearProgress, Button, List, ListItem, ListItemText } from '@material-ui/core';
+import { LinearProgress, Button } from '@material-ui/core';
 import * as classes from './character.styles';
-import { mapToCollection } from 'common/mappers';
+import { CommentComponent } from './comment.component';
 
 export const CharacterContainer: React.FunctionComponent = (props) => {
   const [character, setCharacter] = React.useState<Character>(null);
-  const [comments, setComments] = React.useState<Comment[]>([]);
+  const [comment, setComment] = React.useState<Comment>({id: null, comment: ""});
   const { id } = useParams();  
   const history = useHistory();
 
@@ -21,13 +21,31 @@ export const CharacterContainer: React.FunctionComponent = (props) => {
   };
 
   const handleLoadComments = async () => {
-    const apiComments = await api.getComments(id);
-    setComments(mapToCollection(apiComments[0].comments, mapCommentsFromApiToVm));
+    const apiComment = await api.getCommentByCharacterId(id);
+    setComment(mapCommentFromApiToVm(apiComment[0]));
   };
 
   const handleGoBack = () => {
     history.push(linkRoutes.characterCollection);
   };
+
+  const handleSaveComment = (comment: Comment) => {
+    if (comment.id) {
+      updateComment(comment);
+    } else {
+      saveNewComment(comment);
+    }
+  };
+
+  const updateComment = async(comment: Comment) => {
+    const apiComment = await api.updateComment(mapCommentFromVmToApi(comment, id));
+    setComment(mapCommentFromApiToVm(apiComment));
+  }
+
+  const saveNewComment = async(comment: Comment) => {
+    const apiComment = await api.addComment(mapCommentFromVmToApi(comment, id));
+    setComment(mapCommentFromApiToVm(apiComment));
+  }
 
   React.useEffect(() => {
     handleLoadCharacter();
@@ -38,14 +56,7 @@ export const CharacterContainer: React.FunctionComponent = (props) => {
     {character ? 
     <>
       <CharacterComponent character={character}/> 
-      <List>
-        { comments.map((comment) => {
-            return <ListItem>
-              <ListItemText primary={comment.comment}/>
-            </ListItem>;
-          })
-        }   
-      </List>
+      <CommentComponent comment={comment} handleSaveComment={handleSaveComment}/>
     </>: <LinearProgress/>}
     <Button variant="contained" className={classes.goBackButton} onClick={handleGoBack}>Go back</Button>
   </>;
