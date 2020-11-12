@@ -5,6 +5,7 @@ interface SwitchRoutes {
   characterCollection: string;
   character: string;
   episodeCollection: string;
+  episode: string;
   locationCollection: string;
 }
 
@@ -13,16 +14,19 @@ export const switchRoutes: SwitchRoutes = {
   characterCollection: '/characters',
   character: '/character/:id',
   episodeCollection: '/episodes',
+  episode: '/episode/:id',
   locationCollection: '/locations'
 };
 
 type NavigationFunction = (id: number) => string;
 
-interface LinkRoutes extends Omit<SwitchRoutes, 'character'> {
+interface LinkRoutes extends Omit<SwitchRoutes, 'character'|'episode'> {
   character: NavigationFunction;
+  episode: NavigationFunction;
 }
 
 export const linkRoutes: LinkRoutes = {
   ...switchRoutes,
   character: (id) => generatePath(switchRoutes.character, { id }),
+  episode: (id) => generatePath(switchRoutes.episode, { id })
 };

@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
+import { linkRoutes } from 'core/router';
 import { EpisodeEntityVm } from '../episode-collection.vm';
 import { Card, CardHeader, CardContent, List, ListItem, ListItemText } from '@material-ui/core';
+
 import * as classes from './episode-card.styles';
 
 interface Props {
@@ -8,10 +11,15 @@ interface Props {
 }
 
 export const EpisodeCard: React.FunctionComponent<Props> = (props) => {
-  const { episode } = props;
+  const { episode } = props;  
+  const history = useHistory();
+
+  const handleGoCardInfo = () => {
+    history.push(linkRoutes.episode(episode.id));
+  };
 
   return (
-    <Card>
+    <Card className={classes.card} onClick={handleGoCardInfo}>
       <CardHeader        
         title={episode.name}
       />

@@ -7,6 +7,5 @@ export const mapFromApiToVm = (
   id: episode.id,
   name: episode.name,
   air_date: episode.air_date,
-  episode: episode.episode,
-  charactersURLs: [...episode.characters]
+  episode: episode.episode
 });
