@@ -1,19 +1,48 @@
-import Axios from 'axios'
+import { gql } from  'graphql-request';
 import { CommentApi } from './comment.api-model';
+import { graphqlLocalClient } from 'core/api';
 
-const characterURLbase = 'http://localhost:3080/comments';
+interface GetComment {
+  comment: CommentApi;
+}
 
-export const getCommentByCharacterId = async (id: string): Promise<CommentApi[]> => {
-  const { data } = await Axios.get<CommentApi[]>(`${characterURLbase}?characterId=${id}`);
-  return data;
+interface SaveCommentResponse {
+  commentUpdated: CommentApi;
+}
+
+export const getCommentByCharacterId = async (characterId: string): Promise<CommentApi> => {
+  const query = gql`
+    query {
+      comment(characterId: ${characterId}) {       
+        id
+        characterId
+        comment  
+      }
+    }
+  `;
+  
+  const { comment } = await graphqlLocalClient.request<GetComment>(query);
+  return comment;
 };
 
 export const addComment = async (comment: CommentApi): Promise<CommentApi> => {
-  const { data } = await Axios.post<CommentApi>(characterURLbase, { characterId: comment.characterId, comment: comment.comment});
-  return data;
+  const query = gql`
+    mutation($comment: CommentInput) {
+      saveComment(comment: $comment)
+    }
+  `;
+  
+  const { commentUpdated } = await graphqlLocalClient.request<SaveCommentResponse>(query, {comment});
+  return commentUpdated;
 };
 
 export const updateComment = async (comment: CommentApi): Promise<CommentApi> => {
-  const { data } = await Axios.put<CommentApi>(`${characterURLbase}/${comment.id}`, { characterId: comment.characterId, comment: comment.comment});
-  return data;
+  const query = gql`
+    mutation($comment: CommentInput) {
+      saveComment(comment: $comment)
+    }
+  `;
+  
+  const { commentUpdated } = await graphqlLocalClient.request<SaveCommentResponse>(query, {comment});
+  return commentUpdated;
 };
