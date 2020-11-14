@@ -1,14 +1,33 @@
 {
-  "name": "hotel-api",
+  "name": "comments-api",
   "version": "1.0.0",
-  "description": "Characters Comments API",
   "main": "index.js",
   "scripts": {
-    "mock-server": "json-server --routes ./config/routes.json --watch mock-data/characters-comments.json --middlewares ./config/character-comments.middleware.js --no-delete-cascade --port 3080"
+    "start": "run-p -l type-check:watch start:dev",
+    "start:dev": "nodemon --exec babel-node --extensions \".ts\" src/index.ts",
+    "build": "run-p -l type-check build:prod",
+    "build:prod": "npm run clean && babel src -d dist --extensions \".ts\"",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "clean": "rimraf dist"
   },
-  "author": "Lemoncode",
   "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/express": "^4.17.2",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
+  },
   "dependencies": {
-    "json-server": "^0.16.1"
+    "apollo-server-express": "^2.19.0",
+    "express": "^4.17.1",
+    "regenerator-runtime": "^0.13.3"
   }
 }
