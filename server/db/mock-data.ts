@@ -7,9 +7,5 @@ export const createDefaultComment = (): Comment => ({
 });
 
 export const mockComments: Comment[] = [
-  {
-    id: 1,
-    characterId: 1,
-    comment: "Hola"
-  }
+ 
 ];
