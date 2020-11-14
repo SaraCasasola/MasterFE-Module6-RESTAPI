@@ -1,18 +1,47 @@
-import Axios from 'axios'
+import { gql } from  'graphql-request';
 import { EpisodeCollectionApi } from './episode-collection.api-model';
+import { graphqlClient } from 'core/api';
 
-const episodesURLbase = 'https://rickandmortyapi.com/api/episode/';
+interface GetEpisodeCollection {
+  episodes: EpisodeCollectionApi;
+}
 
 export const getEpisodeCollection = async (pageNumber: number): Promise<EpisodeCollectionApi> => {
-  const url = `${episodesURLbase}?page=${pageNumber}`;
-  const { data } = await Axios.get<EpisodeCollectionApi>(url);
-  return data;
+  const query = gql`
+    query {
+      episodes(page: ${pageNumber}) {
+        info {
+          pages
+        }
+        results {
+          id
+          name
+          air_date
+          episode
+        }
+      }
+    }
+  `;
+  const { episodes } = await graphqlClient.request<GetEpisodeCollection>(query);
+  return episodes;
 };
 
 export const getEpisodeCollectionFilteredByName = async (pageNumber: number, name: string): Promise<EpisodeCollectionApi> => {
-  const url = `${episodesURLbase}?page=${pageNumber}&name=${name}`;
-  const { data } = await Axios.get<EpisodeCollectionApi>(url);
-  return data;
-};
-
-
+  const query = gql`
+    query {
+      episodes(page: ${pageNumber}, filter: {name: "${name}"}) {
+        info {
+          pages
+        }
+        results {
+          id
+          name
+          air_date
+          episode
+        }
+      }
+    }
+  `;
+  const { episodes } = await graphqlClient.request<GetEpisodeCollection>(query);
+  return episodes;
+}

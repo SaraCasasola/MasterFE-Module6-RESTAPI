@@ -1,20 +1,26 @@
-import Axios from 'axios'
+import { gql } from  'graphql-request';
 import { EpisodeApi } from './episode.api-model';
+import { graphqlClient } from 'core/api';
 
-const episodeURLbase = 'https://rickandmortyapi.com/api/episode/';
+interface GetEpisode {
+  episode: EpisodeApi;
+}
 
 export const getEpisode = async (id: string): Promise<EpisodeApi> => {
-  const { data } = await Axios.get<EpisodeApi>(`${episodeURLbase}${id}`);
-  return data;
-};
-
-export const getCharactersByEpisode = async (episode: EpisodeApi): Promise<string[]> => {
-  let charactersNames = [];
-
-  await Promise.all(episode.characters.map(async (characterURL) => {
-    const { data } = await Axios.get(characterURL);
-    charactersNames.push(data.name);
-  }));
-
-  return charactersNames;
+  const query = gql`
+    query {
+      episode(id: 1) {       
+        id
+        name
+        air_date
+        episode
+        characters {
+          name
+        }
+      }
+    }
+  `;
+  
+  const { episode } = await graphqlClient.request<GetEpisode>(query);
+  return episode;
 };

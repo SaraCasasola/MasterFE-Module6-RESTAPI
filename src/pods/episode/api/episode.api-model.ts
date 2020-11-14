@@ -3,5 +3,5 @@ export interface EpisodeApi {
   name: string;
   air_date: Date;
   episode: string;
-  characters: string[];
+  characters: { name: string }[];
 }
