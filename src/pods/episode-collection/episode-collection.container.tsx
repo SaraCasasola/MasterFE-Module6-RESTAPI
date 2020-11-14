@@ -10,22 +10,20 @@ import * as classes from './episode-collection.styles';
 
 export const EpisodeCollectionContainer = () => {
   const initialPageNumber = 1;
-  const { episodeCollection, loadEpisodeCollection } = useEpisodeCollection();
+  const { episodeCollection, loadEpisodeCollection, loadEpisodeCollectionFilteredByName } = useEpisodeCollection();
   const [ pageNumber, setPageNumber ] = React.useState<number>(initialPageNumber);
   const [ episodeName, setEpisodeName] = React.useState<string>();
+  const [ isFirstRendering, setIsFirstRendering] = React.useState<boolean>(true);
   let episodeNameInputValue: string = episodeName;
 
   React.useEffect(() => {
-    loadEpisodeCollection(pageNumber);
-  }, []);
-
-  React.useEffect(() => {
-    loadEpisodeCollection(pageNumber, episodeName);
+    loadEpisodes();
+    setIsFirstRendering(false);
   }, [pageNumber]);
 
   React.useEffect(() => {
-    if(pageNumber === initialPageNumber) {
-      loadEpisodeCollection(pageNumber, episodeName);
+    if(pageNumber === initialPageNumber && !isFirstRendering) {
+      loadEpisodes();
       return;
     }
     setPageNumber(initialPageNumber);
@@ -45,6 +43,11 @@ export const EpisodeCollectionContainer = () => {
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     episodeNameInputValue = e.target.value;
+  };
+
+  const loadEpisodes = () => {
+    if(episodeName && episodeName !== "") loadEpisodeCollectionFilteredByName(pageNumber, episodeName);
+    else loadEpisodeCollection(pageNumber);
   };
 
   return <>

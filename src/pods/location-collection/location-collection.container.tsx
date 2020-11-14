@@ -10,22 +10,20 @@ import * as classes from './location-collection.styles';
 
 export const LocationCollectionContainer = () => {
   const initialPageNumber = 1;
-  const { locationCollection, loadLocationCollection } = useLocationCollection();
+  const { locationCollection, loadLocationCollection, loadLocationCollectionFilteredByName } = useLocationCollection();
   const [ pageNumber, setPageNumber ] = React.useState<number>(initialPageNumber);
   const [ locationName, setLocationName] = React.useState<string>();
+  const [ isFirstRendering, setIsFirstRendering] = React.useState<boolean>(true);
   let locationNameInputValue: string = locationName;
 
   React.useEffect(() => {
-    loadLocationCollection(pageNumber);
-  }, []);
-
-  React.useEffect(() => {
-    loadLocationCollection(pageNumber, locationName);
+    loadLocations();
+    setIsFirstRendering(false);
   }, [pageNumber]);
 
   React.useEffect(() => {
-    if(pageNumber === initialPageNumber) {
-      loadLocationCollection(pageNumber, locationName);
+    if(pageNumber === initialPageNumber && !isFirstRendering) {
+      loadLocations();
       return;
     }
     setPageNumber(initialPageNumber);
@@ -45,6 +43,11 @@ export const LocationCollectionContainer = () => {
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     locationNameInputValue = e.target.value;
+  };
+
+  const loadLocations = () => {
+    if(locationName && locationName !== "") loadLocationCollectionFilteredByName(pageNumber, locationName);
+    else loadLocationCollection(pageNumber);
   };
 
   return <>

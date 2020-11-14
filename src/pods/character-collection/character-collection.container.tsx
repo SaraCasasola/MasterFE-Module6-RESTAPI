@@ -10,22 +10,20 @@ import * as classes from './character-collection.styles';
 
 export const CharacterCollectionContainer = () => {
   const initialPageNumber = 1;
-  const { characterCollection, loadCharacterCollection } = useCharacterCollection();
+  const { characterCollection, loadCharacterCollection, loadCharacterCollectionFilteredByName } = useCharacterCollection();
   const [ pageNumber, setPageNumber ] = React.useState<number>(initialPageNumber);
   const [ characterName, setCharacterName] = React.useState<string>();
+  const [ isFirstRendering, setIsFirstRendering] = React.useState<boolean>(true);
   let characterNameInputValue: string = characterName;
 
   React.useEffect(() => {
-    loadCharacterCollection(pageNumber);
-  }, []);
-
-  React.useEffect(() => {
-    loadCharacterCollection(pageNumber, characterName);
+    loadCharacters();
+    setIsFirstRendering(false);
   }, [pageNumber]);
 
   React.useEffect(() => {
-    if(pageNumber === initialPageNumber) {
-      loadCharacterCollection(pageNumber, characterName);
+    if(pageNumber === initialPageNumber && !isFirstRendering) {
+      loadCharacters();
       return;
     }
     setPageNumber(initialPageNumber);
@@ -45,6 +43,11 @@ export const CharacterCollectionContainer = () => {
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     characterNameInputValue = e.target.value;
+  };
+
+  const loadCharacters = () => {
+    if(characterName && characterName !== "") loadCharacterCollectionFilteredByName(pageNumber, characterName);
+    else loadCharacterCollection(pageNumber);
   };
 
   return <>
