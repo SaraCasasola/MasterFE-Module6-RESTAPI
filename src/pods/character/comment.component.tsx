@@ -34,7 +34,7 @@ export const CommentComponent: React.FunctionComponent<Props> = (props) => {
   };
 
   const characterHasComment = (): boolean => {
-    return comment?.comment?.length > 0;
+    return comment.comment?.length > 0;
   }
 
   return ( editMode ? 

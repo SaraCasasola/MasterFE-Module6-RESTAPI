@@ -1,5 +1,5 @@
 export interface Comment {
   id: string;
-  characterId: number;
+  characterId: string;
   comment: string;
 }

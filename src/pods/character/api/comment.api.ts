@@ -33,7 +33,7 @@ export const addComment = async (comment: CommentApi): Promise<CommentApi> => {
   `;
   
   const { commentUpdated } = await graphqlLocalClient.request<SaveCommentResponse>(query, {comment});
-  return commentUpdated;
+  return comment;
 };
 
 export const updateComment = async (comment: CommentApi): Promise<CommentApi> => {
@@ -44,5 +44,5 @@ export const updateComment = async (comment: CommentApi): Promise<CommentApi> =>
   `;
   
   const { commentUpdated } = await graphqlLocalClient.request<SaveCommentResponse>(query, {comment});
-  return commentUpdated;
+  return comment;
 };

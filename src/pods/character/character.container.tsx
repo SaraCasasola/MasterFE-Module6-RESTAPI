@@ -22,7 +22,7 @@ export const CharacterContainer: React.FunctionComponent = (props) => {
 
   const handleLoadComments = async () => {
     const apiComment = await api.getCommentByCharacterId(id);
-    setComment(mapCommentFromApiToVm(apiComment[0]));
+    setComment(mapCommentFromApiToVm(apiComment));
   };
 
   const handleGoBack = () => {
@@ -39,12 +39,12 @@ export const CharacterContainer: React.FunctionComponent = (props) => {
 
   const updateComment = async(comment: Comment) => {
     const apiComment = await api.updateComment(mapCommentFromVmToApi(comment, id));
-    setComment(mapCommentFromApiToVm(apiComment));
+    setComment(apiComment);
   }
 
   const saveNewComment = async(comment: Comment) => {
     const apiComment = await api.addComment(mapCommentFromVmToApi(comment, id));
-    setComment(mapCommentFromApiToVm(apiComment));
+    setComment(apiComment);
   }
 
   React.useEffect(() => {

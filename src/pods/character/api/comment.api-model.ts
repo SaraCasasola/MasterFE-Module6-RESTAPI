@@ -3,3 +3,4 @@ export interface CommentApi {
   characterId: number;
   comment:string;
 }
+

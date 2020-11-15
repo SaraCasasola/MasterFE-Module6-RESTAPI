@@ -9,10 +9,10 @@ export const resolvers = {
     comment: async (parent, args): Promise<Comment> => await getComment(args.characterId)
   },
   Mutation: {
-    saveComment: async (parent, args: SaveCommentArgs): Promise<Comment> => {
+    saveComment: async (parent, args: SaveCommentArgs): Promise<Boolean> => {
       if(args.comment.id) await updateComment(args.comment);
       else insertComment(args.comment);
-      return args.comment;
+      return true;
     }
   }
 }

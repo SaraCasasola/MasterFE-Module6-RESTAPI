@@ -5,7 +5,3 @@ export const createDefaultComment = (): Comment => ({
   characterId: null,
   comment: null
 });
-
-export const mockComments: Comment[] = [
- 
-];
