@@ -9,7 +9,7 @@ interface GetEpisode {
 export const getEpisode = async (id: string): Promise<EpisodeApi> => {
   const query = gql`
     query {
-      episode(id: 1) {       
+      episode(id: "${id}") {       
         id
         name
         air_date
