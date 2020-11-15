@@ -16,7 +16,7 @@ export const getComment = async (characterId: number): Promise<Comment> => {
 export const insertComment = async (commentToInsert: Comment) => {
   const newId = crypto.randomBytes(16).toString('hex');
   const rawdata = fs.readFileSync(path.join(__dirname, mockFileName ), 'utf8');
-  let mockComments = rawdata && rawdata.toString.length > 0 ? JSON.parse(rawdata.toString()).comments : [];
+  let mockComments = rawdata?.toString().length > 0 ? JSON.parse(rawdata.toString()).comments : [];
   mockComments = [
     ...mockComments,
     {
