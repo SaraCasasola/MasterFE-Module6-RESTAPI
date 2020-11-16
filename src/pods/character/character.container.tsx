@@ -26,8 +26,8 @@ export const CharacterContainer: React.FunctionComponent = (props) => {
 
   const handleLoadComments = async () => {
     try {
-      const apiComment = await api.getCommentByCharacterId(id);
-      setComment(mapCommentFromApiToVm(apiComment[0]));
+      const { data } = await api.getCommentByCharacterId(id);
+      setComment(mapCommentFromApiToVm(data[0]));
     } catch {
       setComment({id: null, comment: ""});
     }
