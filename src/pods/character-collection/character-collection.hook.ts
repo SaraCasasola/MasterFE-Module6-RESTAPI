@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CharacterEntityVm } from './character-collection.vm';
-import { getCharacterCollection, getCharacterCollectionFilteredByName, CharacterCollectionApi } from './api';
+import { getCharacterCollection, getCharacterCollectionFilteredByName } from './api';
 import { mapFromApiToVm } from './character-collection.mapper';
 import { mapToCollection } from 'common/mappers';
 
@@ -11,18 +11,24 @@ export const useCharacterCollection = () => {
     []
   );  
 
-  const loadCharacterCollection = (pageNumber: number) => {
-    getCharacterCollection(pageNumber).then((characters: CharacterCollectionApi) => {
-      totalPagesNumber = characters.info.pages;
-      setCharacterCollection(mapToCollection(characters.results, mapFromApiToVm));
-    }).catch(() => resetCollection());
+  const loadCharacterCollection = async(pageNumber: number) => {
+    try {
+      const { data } = await getCharacterCollection(pageNumber);
+      totalPagesNumber = data.info.pages;
+      setCharacterCollection(mapToCollection(data.results, mapFromApiToVm));
+    } catch(e) {
+      resetCollection();
+    }    
   };
 
-  const loadCharacterCollectionFilteredByName = (pageNumber: number, name: string) => {
-    getCharacterCollectionFilteredByName(pageNumber, name).then((characters: CharacterCollectionApi) => {
-      totalPagesNumber = characters.info.pages;
-      setCharacterCollection(mapToCollection(characters.results, mapFromApiToVm));
-    }).catch(() => resetCollection());
+  const loadCharacterCollectionFilteredByName = async(pageNumber: number, name: string) => {
+    try {
+      const { data } = await getCharacterCollectionFilteredByName(pageNumber, name);
+      totalPagesNumber = data.info.pages;
+      setCharacterCollection(mapToCollection(data.results, mapFromApiToVm));
+    } catch(e) {
+      resetCollection();
+    }
   };
 
   const resetCollection = () => {

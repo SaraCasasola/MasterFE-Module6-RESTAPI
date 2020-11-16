@@ -1,17 +1,15 @@
-import Axios from 'axios'
+import Axios, { AxiosResponse } from 'axios';
 import { CharacterCollectionApi } from './character-collection.api-model';
 
 const charactersURLbase = 'https://rickandmortyapi.com/api/character/';
 
-export const getCharacterCollection = async (pageNumber: number): Promise<CharacterCollectionApi> => {
+export const getCharacterCollection = (pageNumber: number): Promise<AxiosResponse<CharacterCollectionApi>> => {
   const url =  `${charactersURLbase}?page=${pageNumber}`;
-  const { data } = await Axios.get<CharacterCollectionApi>(url);
-  return data;
+  return Axios.get<CharacterCollectionApi>(url);
 };
 
-export const getCharacterCollectionFilteredByName = async (pageNumber: number, name: string): Promise<CharacterCollectionApi> => {
+export const getCharacterCollectionFilteredByName = (pageNumber: number, name: string): Promise<AxiosResponse<CharacterCollectionApi>> => {
   const url = `${charactersURLbase}?page=${pageNumber}&name=${name}`;
-  const { data } = await Axios.get<CharacterCollectionApi>(url);
-  return data;
+  return Axios.get<CharacterCollectionApi>(url);
 };
 

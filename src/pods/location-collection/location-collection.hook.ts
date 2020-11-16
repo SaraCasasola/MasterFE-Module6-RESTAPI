@@ -9,18 +9,24 @@ export let totalPagesNumber: number;
 export const useLocationCollection = () => {
   const [locationCollection, setLocationCollection] = React.useState<LocationEntityVm[]>([]);  
 
-  const loadLocationCollection = (pageNumber: number) => {
-    getLocationCollection(pageNumber).then((location: LocationCollectionApi) => {
-      totalPagesNumber = location.info.pages;
-      setLocationCollection(mapToCollection(location.results, mapFromApiToVm));
-    }).catch(() => resetCollection());
+  const loadLocationCollection = async (pageNumber: number) => {
+    try {
+      const { data } = await getLocationCollection(pageNumber);
+      totalPagesNumber = data.info.pages;
+      setLocationCollection(mapToCollection(data.results, mapFromApiToVm));
+    } catch(e) {
+      resetCollection();
+    }
   };
 
-  const loadLocationCollectionFilteredByName = (pageNumber: number, name: string) => {
-    getLocationCollectionFilteredByName(pageNumber, name).then((location: LocationCollectionApi) => {
-      totalPagesNumber = location.info.pages;
-      setLocationCollection(mapToCollection(location.results, mapFromApiToVm));
-    }).catch(() => resetCollection());
+  const loadLocationCollectionFilteredByName = async (pageNumber: number, name: string) => {
+    try {
+      const { data } = await getLocationCollectionFilteredByName(pageNumber, name);
+      totalPagesNumber = data.info.pages;
+      setLocationCollection(mapToCollection(data.results, mapFromApiToVm));
+    } catch(e) {
+      resetCollection();
+    }
   };
 
   const resetCollection = () => {

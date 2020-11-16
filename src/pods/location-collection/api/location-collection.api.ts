@@ -1,18 +1,16 @@
-import Axios from 'axios'
+import Axios, { AxiosResponse } from 'axios';
 import { LocationCollectionApi } from './location-collection.api-model';
 
 const locationsURLbase = 'https://rickandmortyapi.com/api/location/';
 
-export const getLocationCollection = async (pageNumber: number): Promise<LocationCollectionApi> => {
+export const getLocationCollection = (pageNumber: number): Promise<AxiosResponse<LocationCollectionApi>> => {
   const url = `${locationsURLbase}?page=${pageNumber}`;
-  const { data } = await Axios.get<LocationCollectionApi>(url);
-  return data;
+  return Axios.get<LocationCollectionApi>(url);
 };
 
-export const getLocationCollectionFilteredByName = async (pageNumber: number, name: string): Promise<LocationCollectionApi> => {
+export const getLocationCollectionFilteredByName = (pageNumber: number, name: string): Promise<AxiosResponse<LocationCollectionApi>> => {
   const url = `${locationsURLbase}?page=${pageNumber}&name=${name}`;
-  const { data } = await Axios.get<LocationCollectionApi>(url);
-  return data;
+  return Axios.get<LocationCollectionApi>(url);
 };
 
 
