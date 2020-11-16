@@ -14,9 +14,13 @@ export const EpisodeContainer: React.FunctionComponent = (props) => {
   const history = useHistory();
 
   const handleLoadEpisode = async () => {
-    const apiEpisode = await api.getEpisode(id);
-    const mappedEpisode = await mapEpisodeFromApiToVm(apiEpisode);
-    setEpisode(mappedEpisode);
+    try {
+      const { episode } = await api.getEpisode(id);
+      const mappedEpisode = await mapEpisodeFromApiToVm(episode);
+      setEpisode(mappedEpisode);
+    } catch (e) {
+      setEpisode(null);
+    }
   };  
 
   const handleGoBack = () => {

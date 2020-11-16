@@ -6,7 +6,7 @@ interface GetEpisode {
   episode: EpisodeApi;
 }
 
-export const getEpisode = async (id: string): Promise<EpisodeApi> => {
+export const getEpisode = (id: string): Promise<GetEpisode> => {
   const query = gql`
     query {
       episode(id: "${id}") {       
@@ -21,6 +21,5 @@ export const getEpisode = async (id: string): Promise<EpisodeApi> => {
     }
   `;
   
-  const { episode } = await graphqlClient.request<GetEpisode>(query);
-  return episode;
+  return graphqlClient.request<GetEpisode>(query);
 };

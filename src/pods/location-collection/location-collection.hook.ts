@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { LocationEntityVm } from './location-collection.vm';
-import { getLocationCollection, getLocationCollectionFilteredByName, LocationCollectionApi } from './api';
+import { getLocationCollection, getLocationCollectionFilteredByName } from './api';
 import { mapFromApiToVm } from './location-collection.mapper';
 import { mapToCollection } from 'common/mappers';
 
@@ -9,18 +9,24 @@ export let totalPagesNumber: number;
 export const useLocationCollection = () => {
   const [locationCollection, setLocationCollection] = React.useState<LocationEntityVm[]>([]);  
 
-  const loadLocationCollection = (pageNumber: number) => {
-    getLocationCollection(pageNumber).then((location: LocationCollectionApi) => {
-      totalPagesNumber = location.info.pages;
-      setLocationCollection(mapToCollection(location.results, mapFromApiToVm));
-    }).catch(() => resetCollection());
+  const loadLocationCollection = async (pageNumber: number) => {
+    try {
+      const { locations } = await getLocationCollection(pageNumber);
+      totalPagesNumber = locations.info.pages;
+      setLocationCollection(mapToCollection(locations.results, mapFromApiToVm));
+    } catch(e) {
+      resetCollection();
+    }
   };
 
-  const loadLocationCollectionFilteredByName = (pageNumber: number, name: string) => {
-    getLocationCollectionFilteredByName(pageNumber, name).then((location: LocationCollectionApi) => {
-      totalPagesNumber = location.info.pages;
-      setLocationCollection(mapToCollection(location.results, mapFromApiToVm));
-    }).catch(() => resetCollection());
+  const loadLocationCollectionFilteredByName = async (pageNumber: number, name: string) => {
+    try {
+      const { locations } = await getLocationCollectionFilteredByName(pageNumber, name);
+      totalPagesNumber = locations.info.pages;
+      setLocationCollection(mapToCollection(locations.results, mapFromApiToVm));
+    } catch(e) {
+      resetCollection();
+    }
   };
 
   const resetCollection = () => {

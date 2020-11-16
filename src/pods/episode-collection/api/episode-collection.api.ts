@@ -6,7 +6,7 @@ interface GetEpisodeCollection {
   episodes: EpisodeCollectionApi;
 }
 
-export const getEpisodeCollection = async (pageNumber: number): Promise<EpisodeCollectionApi> => {
+export const getEpisodeCollection = (pageNumber: number): Promise<GetEpisodeCollection> => {
   const query = gql`
     query {
       episodes(page: ${pageNumber}) {
@@ -22,11 +22,10 @@ export const getEpisodeCollection = async (pageNumber: number): Promise<EpisodeC
       }
     }
   `;
-  const { episodes } = await graphqlClient.request<GetEpisodeCollection>(query);
-  return episodes;
+  return graphqlClient.request<GetEpisodeCollection>(query);
 };
 
-export const getEpisodeCollectionFilteredByName = async (pageNumber: number, name: string): Promise<EpisodeCollectionApi> => {
+export const getEpisodeCollectionFilteredByName = (pageNumber: number, name: string): Promise<GetEpisodeCollection> => {
   const query = gql`
     query {
       episodes(page: ${pageNumber}, filter: {name: "${name}"}) {
@@ -42,6 +41,5 @@ export const getEpisodeCollectionFilteredByName = async (pageNumber: number, nam
       }
     }
   `;
-  const { episodes } = await graphqlClient.request<GetEpisodeCollection>(query);
-  return episodes;
+  return graphqlClient.request<GetEpisodeCollection>(query);
 }

@@ -16,13 +16,21 @@ export const CharacterContainer: React.FunctionComponent = (props) => {
   const history = useHistory();
 
   const handleLoadCharacter = async () => {
-    const apiCharacter = await api.getCharacter(id);
-    setCharacter(mapCharacterFromApiToVm(apiCharacter));
+    try {
+      const { character } = await api.getCharacter(id);
+      setCharacter(mapCharacterFromApiToVm(character));
+    } catch {
+      setCharacter(null);
+    }    
   };
 
   const handleLoadComments = async () => {
-    const apiComment = await api.getCommentByCharacterId(id);
-    setComment(mapCommentFromApiToVm(apiComment));
+    try {
+      const { comment } = await api.getCommentByCharacterId(id);
+      setComment(mapCommentFromApiToVm(comment));
+    } catch {
+      setComment({id: null, comment: ""});
+    }
   };
 
   const handleGoBack = () => {
@@ -38,13 +46,21 @@ export const CharacterContainer: React.FunctionComponent = (props) => {
   };
 
   const updateComment = async(comment: Comment) => {
-    const apiComment = await api.updateComment(mapCommentFromVmToApi(comment, id));
-    setComment(apiComment);
+    try {
+      await api.updateComment(mapCommentFromVmToApi(comment, id));
+      setComment(comment);
+    } catch {
+      setComment({id: null, comment: ""});
+    }
   }
 
   const saveNewComment = async(comment: Comment) => {
-    const apiComment = await api.addComment(mapCommentFromVmToApi(comment, id));
-    setComment(apiComment);
+    try {
+      await api.addComment(mapCommentFromVmToApi(comment, id));
+      setComment(comment);
+    } catch {
+      setComment({id: null, comment: ""});
+    }
   }
 
   React.useEffect(() => {

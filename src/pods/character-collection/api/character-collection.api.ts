@@ -6,7 +6,7 @@ interface GetCharacterCollection {
   characters: CharacterCollectionApi;
 }
 
-export const getCharacterCollection = async (pageNumber: number): Promise<CharacterCollectionApi> => {
+export const getCharacterCollection = (pageNumber: number): Promise<GetCharacterCollection> => {
   const query = gql`
     query {
       characters(page: ${pageNumber}) {
@@ -23,11 +23,10 @@ export const getCharacterCollection = async (pageNumber: number): Promise<Charac
       }
     }
   `;
-  const { characters } = await graphqlClient.request<GetCharacterCollection>(query);
-  return characters;
+  return graphqlClient.request<GetCharacterCollection>(query);
 };
 
-export const getCharacterCollectionFilteredByName = async (pageNumber: number, name: string): Promise<CharacterCollectionApi> => {
+export const getCharacterCollectionFilteredByName = (pageNumber: number, name: string): Promise<GetCharacterCollection> => {
   const query = gql`
     query {
       characters(page: ${pageNumber}, filter: {name: "${name}"}) {
@@ -44,7 +43,6 @@ export const getCharacterCollectionFilteredByName = async (pageNumber: number, n
       }
     }
   `;
-  const { characters } = await graphqlClient.request<GetCharacterCollection>(query);
-  return characters;
+  return graphqlClient.request<GetCharacterCollection>(query);
 }
   

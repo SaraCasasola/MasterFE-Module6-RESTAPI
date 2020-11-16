@@ -6,7 +6,7 @@ interface GetLocationCollection {
   locations: LocationCollectionApi;
 }
 
-export const getLocationCollection = async (pageNumber: number): Promise<LocationCollectionApi> => {
+export const getLocationCollection = (pageNumber: number): Promise<GetLocationCollection> => {
   const query = gql`
     query {
       locations(page: ${pageNumber}) {
@@ -22,11 +22,10 @@ export const getLocationCollection = async (pageNumber: number): Promise<Locatio
       }
     }
   `;
-  const { locations } = await graphqlClient.request<GetLocationCollection>(query);
-  return locations;
+  return graphqlClient.request<GetLocationCollection>(query);
 };
 
-export const getLocationCollectionFilteredByName = async (pageNumber: number, name: string): Promise<LocationCollectionApi> => {
+export const getLocationCollectionFilteredByName = (pageNumber: number, name: string): Promise<GetLocationCollection> => {
   const query = gql`
     query {
       locations(page: ${pageNumber}, filter: {name: "${name}"}) {
@@ -42,6 +41,5 @@ export const getLocationCollectionFilteredByName = async (pageNumber: number, na
       }
     }
   `;
-  const { locations } = await graphqlClient.request<GetLocationCollection>(query);
-  return locations;
+  return graphqlClient.request<GetLocationCollection>(query);
 }

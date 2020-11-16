@@ -6,7 +6,7 @@ interface GetCharacter {
   character: CharacterApi;
 }
 
-export const getCharacter = async (id: string): Promise<CharacterApi> => {
+export const getCharacter = (id: string): Promise<GetCharacter> => {
   const query = gql`
     query {
       character(id: ${id}) {       
@@ -27,6 +27,5 @@ export const getCharacter = async (id: string): Promise<CharacterApi> => {
     }
   `;
   
-  const { character } = await graphqlClient.request<GetCharacter>(query);
-  return character;
+  return graphqlClient.request<GetCharacter>(query);
 };

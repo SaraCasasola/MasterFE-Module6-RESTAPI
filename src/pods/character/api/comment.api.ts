@@ -10,7 +10,7 @@ interface SaveCommentResponse {
   commentUpdated: CommentApi;
 }
 
-export const getCommentByCharacterId = async (characterId: string): Promise<CommentApi> => {
+export const getCommentByCharacterId = (characterId: string): Promise<GetComment> => {
   const query = gql`
     query {
       comment(characterId: ${characterId}) {       
@@ -21,28 +21,25 @@ export const getCommentByCharacterId = async (characterId: string): Promise<Comm
     }
   `;
   
-  const { comment } = await graphqlLocalClient.request<GetComment>(query);
-  return comment;
+  return graphqlLocalClient.request<GetComment>(query);
 };
 
-export const addComment = async (comment: CommentApi): Promise<CommentApi> => {
+export const addComment = (comment: CommentApi): Promise<SaveCommentResponse> => {
   const query = gql`
     mutation($comment: CommentInput) {
       saveComment(comment: $comment)
     }
   `;
   
-  const { commentUpdated } = await graphqlLocalClient.request<SaveCommentResponse>(query, {comment});
-  return comment;
+  return graphqlLocalClient.request<SaveCommentResponse>(query, {comment});
 };
 
-export const updateComment = async (comment: CommentApi): Promise<CommentApi> => {
+export const updateComment = (comment: CommentApi): Promise<SaveCommentResponse> => {
   const query = gql`
     mutation($comment: CommentInput) {
       saveComment(comment: $comment)
     }
   `;
   
-  const { commentUpdated } = await graphqlLocalClient.request<SaveCommentResponse>(query, {comment});
-  return comment;
+  return graphqlLocalClient.request<SaveCommentResponse>(query, {comment});
 };
